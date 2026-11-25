@@ -1,0 +1,28 @@
+# Rahasia: kredensial database, APP_KEY, dll. Contohnya ada di backend/.env.example
+.env
+.env.*
+!.env.example
+
+# Dependensi & hasil build (bisa dibuat ulang)
+backend/vendor/
+backend/node_modules/
+backend/public/build/
+backend/public/hot
+aplikasi_restoran_ahmadyusuf/build/
+aplikasi_restoran_ahmadyusuf/.dart_tool/
+
+# Database lokal & log
+*.sqlite
+*.sqlite-journal
+*.log
+
+# Dokumen pribadi (memuat nama & NIM), jangan masuk repo publik
+dokumen/
+*.pdf
+
+# Editor & sistem operasi
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
