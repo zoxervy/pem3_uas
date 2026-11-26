@@ -4,10 +4,6 @@
 !.env.example
 
 # Dependensi & hasil build (bisa dibuat ulang)
-backend/vendor/
-backend/node_modules/
-backend/public/build/
-backend/public/hot
 aplikasi_restoran_ahmadyusuf/build/
 aplikasi_restoran_ahmadyusuf/.dart_tool/
 

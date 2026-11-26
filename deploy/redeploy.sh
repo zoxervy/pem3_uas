@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Deploy ulang TANPA sudo: build Flutter web -> ~/www/resto, migrasi DB Laravel.
+# Deploy ulang TANPA sudo: test API, build Flutter web -> ~/www/resto.
 #   bash redeploy.sh            (build + deploy)
 #   SKIP_BUILD=1 bash redeploy.sh   (pakai build/web yang sudah ada)
 set -euo pipefail
@@ -9,8 +9,9 @@ BACKEND="$ROOT/backend"
 WEBROOT="$HOME/www/resto"
 export PATH="$HOME/flutter/bin:$PATH" CI=true FLUTTER_SUPPRESS_ANALYTICS=true
 
-echo "==> Backend: migrasi database + autoload & route cache"
-(cd "$BACKEND" && php artisan migrate --force && composer dump-autoload -o -q && php artisan route:cache -q)
+echo "==> Backend: cek sintaks PHP + test API (data uji di-rollback)"
+find "$BACKEND/src" "$BACKEND/public" -name '*.php' -print0 | xargs -0 -n1 php -l | grep -v '^No syntax' || true
+(cd "$BACKEND" && php tests/uji_api.php | tail -1)
 
 if [ "${SKIP_BUILD:-0}" != 1 ]; then
   echo "==> Flutter: build web (release)"

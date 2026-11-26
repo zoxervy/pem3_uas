@@ -1,20 +1,20 @@
 <?php
 
-use Illuminate\Foundation\Application;
-use Illuminate\Http\Request;
+declare(strict_types=1);
 
-define('LARAVEL_START', microtime(true));
+// Satu-satunya pintu masuk API. Web server meneruskan semua /api/* ke file ini.
+require __DIR__ . '/../src/bootstrap.php';
 
-// Determine if the application is in maintenance mode...
-if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php')) {
-    require $maintenance;
+// Untuk Flutter yang dijalankan dari alamat lain (mis. `flutter run` di Laragon). Login memakai
+// token di header Authorization, bukan cookie, jadi "*" aman.
+header('Access-Control-Allow-Origin: ' . env('CORS_ORIGIN', '*'));
+header('Access-Control-Allow-Headers: Authorization, Content-Type, Accept');
+header('Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS');
+
+[$status, $data] = buatApp()->tangani(Req::dariGlobal());
+
+http_response_code($status);
+if ($data !== null) {
+    header('Content-Type: application/json');
+    echo json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 }
-
-// Register the Composer autoloader...
-require __DIR__.'/../vendor/autoload.php';
-
-// Bootstrap Laravel and handle the request...
-/** @var Application $app */
-$app = require_once __DIR__.'/../bootstrap/app.php';
-
-$app->handleRequest(Request::capture());
