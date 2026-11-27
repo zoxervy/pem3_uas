@@ -1,0 +1,10 @@
+# Apache (Laragon) bila root web = folder backend, bukan backend/public.
+# Semua request diteruskan ke index.php, jadi .env, src/, dan file .sql tidak bisa diunduh.
+Options -Indexes
+RewriteEngine On
+
+RewriteCond %{HTTP:Authorization} .
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+RewriteRule ^index\.php$ - [L]
+RewriteRule ^ index.php [L]

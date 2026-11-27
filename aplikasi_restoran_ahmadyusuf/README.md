@@ -1,17 +1,14 @@
 # aplikasi_restoran_ahmadyusuf
 
-A new Flutter project.
+Flutter web (MVC + provider) untuk pelanggan, waitress, kasir, dan admin.
 
-## Getting Started
+```
+flutter pub get
+flutter test
+flutter run -d chrome --web-port 8080      # memakai API Laragon: http://localhost/resto-api/api
+```
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Alamat API diatur di `lib/config/api_config.dart`:
+- `flutter run` (debug): `http://localhost/resto-api/api` (backend di `C:\laragon\www\resto-api`, lihat `../backend/README.md`);
+- build rilis web: `/api` di domain yang sama (server);
+- alamat lain: `--dart-define=API_BASE=http://alamat/api`.

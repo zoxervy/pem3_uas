@@ -1,11 +1,17 @@
+import 'package:flutter/foundation.dart';
+
 /// Alamat server API.
 ///
-/// Di web, aplikasi dan API ada di domain yang sama (Caddy meneruskan /api ke
-/// Laravel), jadi cukup memakai origin halaman. Untuk development lokal bisa
-/// diganti: flutter run -d chrome --dart-define=API_BASE=http://127.0.0.1:8123/api
+/// - Build rilis di web: API ada di domain yang sama (Caddy meneruskan /api ke PHP).
+/// - `flutter run` (debug) atau aplikasi non-web: API Laragon di komputer sendiri.
+/// - Alamat lain: flutter run -d chrome --dart-define=API_BASE=http://alamat-lain/api
 class ApiConfig {
   static const String _override = String.fromEnvironment('API_BASE');
+  static const String lokal = 'http://localhost/resto-api/api';
 
-  static String get baseUrl =>
-      _override.isNotEmpty ? _override : '${Uri.base.origin}/api';
+  static String get baseUrl {
+    if (_override.isNotEmpty) return _override;
+    if (kIsWeb && kReleaseMode) return '${Uri.base.origin}/api';
+    return lokal;
+  }
 }
